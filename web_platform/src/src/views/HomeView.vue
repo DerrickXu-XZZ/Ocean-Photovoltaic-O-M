@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+// Left Panel
 import DeviceList from '../components/DroneList.vue'
+// Right Panel
 import StainChart from '../components/StainChart.vue'
 import CleaningChart from '../components/CleaningChart.vue'
+// Central Panel
+import ThreeScene from '../components/ThreeScene.vue'
 </script>
 
 <template>
@@ -32,11 +36,9 @@ import CleaningChart from '../components/CleaningChart.vue'
 
       <main class="panel center-panel">
         <div class="map-container">
-          <div class="map-placeholder">
-            <h2>3D 实时数字孪生场景</h2>
-            <p>光伏阵列 / 运维船 / 路径规划</p>
-          </div>
+          <ThreeScene />
         </div>
+
         <div class="bottom-control">
           <el-button type="primary" size="large">一键起飞</el-button>
           <el-button type="warning" size="large">全船返航</el-button>
@@ -86,6 +88,7 @@ import CleaningChart from '../components/CleaningChart.vue'
   font-size: 24px;
   background: linear-gradient(to right, #00c6ff, #0072ff);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
   display: inline-block;
   margin-right: 15px;
