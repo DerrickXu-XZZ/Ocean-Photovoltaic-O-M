@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
 // Left Panel
 import DeviceList from '../components/DroneList.vue'
 // Right Panel
@@ -7,6 +8,28 @@ import StainChart from '../components/StainChart.vue'
 import CleaningChart from '../components/CleaningChart.vue'
 // Central Panel
 import ThreeScene from '../components/ThreeScene.vue'
+
+const currentTime = ref('')
+
+function updateTime() {
+  const now = new Date()
+  const y = now.getFullYear()
+  const m = String(now.getMonth() + 1).padStart(2, '0')
+  const d = String(now.getDate()).padStart(2, '0')
+  const hh = String(now.getHours()).padStart(2, '0')
+  const mm = String(now.getMinutes()).padStart(2, '0')
+  const ss = String(now.getSeconds()).padStart(2, '0')
+  currentTime.value = `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+}
+
+let timer: number
+onMounted(() => {
+  updateTime()
+  timer = window.setInterval(updateTime, 1000)
+})
+onBeforeUnmount(() => {
+  clearInterval(timer)
+})
 </script>
 
 <template>
@@ -19,7 +42,7 @@ import ThreeScene from '../components/ThreeScene.vue'
       </div>
       <div class="status-area">
         <el-tag type="success" effect="dark">系统在线</el-tag>
-        <span class="time">2025-11-29 14:00:00</span>
+        <span class="time">{{ currentTime }}</span>
       </div>
     </header>
 
@@ -150,6 +173,7 @@ import ThreeScene from '../components/ThreeScene.vue'
   flex-direction: column;
   border-bottom: 1px solid #1f2f4a;
 }
+
 .item-block:last-child {
   border-bottom: none;
 }
@@ -191,12 +215,11 @@ import ThreeScene from '../components/ThreeScene.vue'
   color: #8daac4;
 }
 
-.chart-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.2);
-  margin: 10px;
-  border-radius: 4px;
+.chart-wrapper {
+  flex: 1;
+  min-height: 200px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 </style>
